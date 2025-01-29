@@ -13,9 +13,9 @@ const PinConfig pins[] = {
   { &PORTB, (1 << PB2) }
 };
 
-int delayMcs[] = {10000, 1000, 500, 100, 50};
-int previousMcs[N] = {0};
-int ledStates[N] = {0};
+unsigned long delayMcs[] = {10000, 1000, 500, 100, 50};
+unsigned long previousMcs[N] = {0};
+bool ledStates[N] = {0};
 
 void setup() {
   for (int i = 0; i < N; i++) {
@@ -37,7 +37,7 @@ void loop() {
         *pins[i].port |= pins[i].mask;
       }
 
-      pinState[i] ^= 1;
+      ledStates[i] ^= 1;
       previousMcs[i] = currentMicros;
     } 
   }
