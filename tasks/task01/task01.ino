@@ -14,8 +14,8 @@ const PinConfig pins[] = {
 };
 
 unsigned long delayMcs[] = {10000, 1000, 500, 100, 50};
-unsigned long previousMcs[N] = {0};
-bool ledStates[N] = {0};
+unsigned long previousMcs[] = {0, 0, 0, 0, 0};
+bool ledStates[] = {0, 0, 0, 0, 0};
 
 void setup() {
   for (int i = 0; i < N; i++) {
@@ -25,19 +25,20 @@ void setup() {
   }
 }
 
-void loop() {
+void loop() { 
   for (int i = 0; i < N; i++) {
     unsigned long currentMicros = micros();
-    unsigned long halfPeriod = delayMcs[i] / 2;
 
-    if (currentMicros - previousMcs[i] >= halfPeriod) {
+    if (currentMicros - previousMcs[i] >= delayMcs[i]) {
+      ledStates[i] ^= 1;
+      
       if (ledStates[i]) {
-        *pins[i].port &= ~pins[i].mask;
-      } else {
         *pins[i].port |= pins[i].mask;
+      } else {
+        *pins[i].port &= ~pins[i].mask;
       }
 
-      ledStates[i] ^= 1;
+      
       previousMcs[i] = currentMicros;
     } 
   }
