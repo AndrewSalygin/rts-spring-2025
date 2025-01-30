@@ -31,7 +31,7 @@ void loop() {
     unsigned long halfPeriod = delayMcs[i] / 2;
 
     if (currentMicros - previousMcs[i] >= halfPeriod) {
-      if (pinState[i]) {
+      if (ledStates[i]) {
         *pins[i].port &= ~pins[i].mask;
       } else {
         *pins[i].port |= pins[i].mask;
